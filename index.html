@@ -1,0 +1,1032 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tailored AI — Automate the work that's costing you money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --near-black:#0A0B0A;
+    --charcoal:#1C1C1C;
+    --forest:#0D5C3A;
+    --forest-2:#0a4b2f;
+    --navy:#0B3D6B;
+    --mint:#00C471;
+    --off-white:#F6F8F6;
+    --pure-white:#FFFFFF;
+    --soft-white:#F0F4F0;
+    --gray-green:#E2E8E2;
+    --text-muted:#5A6360;
+    --rule:#E6ECE6;
+    --rule-2:#D6DED6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--pure-white);color:var(--charcoal);font-family:'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  html{scroll-behavior:smooth}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  img{display:block;max-width:100%}
+
+  /* ========= TYPE ========= */
+  h1,h2,h3,h4{font-family:'DM Sans',sans-serif;color:var(--near-black);letter-spacing:-.025em;line-height:1;font-weight:700}
+  h1{font-family:'DM Sans',sans-serif;font-size:clamp(52px,7.5vw,104px);font-weight:700;letter-spacing:-.03em;line-height:1.02}
+  h2{font-size:clamp(40px,5vw,68px);font-weight:700;letter-spacing:-.03em;line-height:1}
+  h3{font-size:24px;font-weight:700;letter-spacing:-.015em;line-height:1.15}
+  h4{font-size:17px;font-weight:600;letter-spacing:-.005em;line-height:1.2}
+  p{font-size:17px;line-height:1.6;color:var(--charcoal)}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--forest);font-weight:500;display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:22px;height:1px;background:currentColor;opacity:.6}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em}
+  .muted{color:var(--text-muted)}
+
+  /* ========= LAYOUT ========= */
+  .wrap{max-width:1220px;margin:0 auto;padding:0 40px}
+  section{padding:120px 0;position:relative}
+  section.tight{padding:88px 0}
+  .divider{border-top:1px solid var(--rule)}
+
+  /* ========= NAV ========= */
+  .nav{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);
+    backdrop-filter:saturate(1.2) blur(12px);
+    border-bottom:1px solid var(--rule);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;padding:0 40px;max-width:1400px;margin:0 auto}
+  .nav-brand{display:flex;align-items:center;gap:12px}
+  .nav-brand img{width:26px;height:26px}
+  .nav-brand .word{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;color:var(--near-black)}
+  .nav-links{display:flex;align-items:center;gap:36px}
+  .nav-links a{font-size:14px;color:var(--charcoal);font-weight:500;transition:color .15s}
+  .nav-links a:hover{color:var(--forest)}
+  .nav-right{display:flex;align-items:center;gap:18px}
+  .nav-right .login{font-size:14px;font-weight:500;color:var(--charcoal)}
+
+  /* ========= BUTTONS ========= */
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:13px 22px;border-radius:8px;font-weight:600;font-size:14px;letter-spacing:-.005em;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s;
+    border:1px solid transparent;
+  }
+  .btn .arrow{width:14px;height:14px;transition:transform .2s}
+  .btn:hover .arrow{transform:translateX(3px)}
+  .btn-primary{background:var(--forest);color:var(--soft-white);box-shadow:0 1px 0 rgba(0,0,0,.04), 0 6px 16px -8px rgba(13,92,58,.5)}
+  .btn-primary:hover{background:var(--forest-2);box-shadow:0 2px 0 rgba(0,0,0,.04), 0 10px 22px -8px rgba(13,92,58,.55)}
+  .btn-ghost{background:var(--pure-white);color:var(--near-black);border-color:var(--rule-2)}
+  .btn-ghost:hover{border-color:var(--forest);color:var(--forest)}
+  .btn-lg{padding:16px 26px;font-size:15px}
+
+  /* ========= HERO ========= */
+  .hero{padding:72px 0 40px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:
+      linear-gradient(to right, var(--rule) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image:radial-gradient(ellipse at center, black 20%, transparent 70%);
+    -webkit-mask-image:radial-gradient(ellipse at center, black 20%, transparent 70%);
+  }
+  .hero-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 40px}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border-radius:999px;
+    background:var(--off-white);border:1px solid var(--rule-2);
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--forest);
+    margin-bottom:28px;
+  }
+  .hero-badge .pulse{width:6px;height:6px;background:var(--mint);border-radius:50%;box-shadow:0 0 0 0 rgba(0,196,113,.6);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,196,113,.5)}70%{box-shadow:0 0 0 10px rgba(0,196,113,0)}100%{box-shadow:0 0 0 0 rgba(0,196,113,0)}}
+
+  .hero h1{margin-bottom:22px}
+  .hero h1 .accent{color:var(--forest);font-style:normal;display:block}
+  .hero .lede{font-size:19px;line-height:1.55;color:var(--text-muted);max-width:58ch;margin:0 auto 36px}
+  .hero-ctas{display:flex;gap:14px;justify-content:center;margin-bottom:72px}
+
+  /* hero demo card */
+  .hero-demo{
+    max-width:960px;margin:0 auto;background:var(--pure-white);
+    border:1px solid var(--rule-2);border-radius:14px;
+    box-shadow:0 2px 0 rgba(10,11,10,.02), 0 30px 60px -30px rgba(10,11,10,.18), 0 12px 24px -18px rgba(13,92,58,.12);
+    padding:22px;
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;
+    text-align:left;
+  }
+  .hero-demo-item{
+    padding:16px 18px;border-radius:10px;border:1px solid var(--rule);background:#fcfdfc;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .hero-demo-item .row1{display:flex;align-items:center;gap:10px}
+  .hero-demo-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .hero-demo-item h4{font-size:14.5px;font-weight:700;font-family:'DM Sans',sans-serif;color:var(--near-black);letter-spacing:-.005em}
+  .hero-demo-item .status{
+    margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    padding:3px 8px;border-radius:4px;font-weight:500;
+  }
+  .hero-demo-item .desc{font-size:13px;color:var(--text-muted);line-height:1.45}
+  .s-forest{background:rgba(13,92,58,.1);color:var(--forest)}
+  .s-navy{background:rgba(11,61,107,.1);color:var(--navy)}
+  .s-mint{background:rgba(0,196,113,.15);color:#036b41}
+  .s-charcoal{background:rgba(28,28,28,.08);color:var(--charcoal)}
+
+  /* ========= HOW IT WORKS ========= */
+  .section-head{text-align:center;max-width:680px;margin:0 auto 72px}
+  .section-head .eyebrow{margin-bottom:22px}
+  .section-head h2{margin-bottom:18px}
+  .section-head p{color:var(--text-muted);font-size:18px}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .step{
+    background:var(--pure-white);border:1px solid var(--rule);border-radius:14px;padding:28px;
+    display:flex;flex-direction:column;gap:16px;min-height:480px;
+    transition:transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .step:hover{transform:translateY(-3px);box-shadow:0 20px 40px -24px rgba(10,11,10,.15);border-color:var(--rule-2)}
+  .step-head{display:flex;align-items:center;gap:12px}
+  .step-num{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;font-weight:500;
+    padding:4px 8px;border-radius:4px;background:var(--off-white);color:var(--forest);
+  }
+  .step h3{font-size:20px}
+  .step .step-desc{font-size:15px;color:var(--text-muted);line-height:1.55}
+  .step-visual{margin-top:auto;border-radius:10px;border:1px solid var(--rule);overflow:hidden;background:#fcfdfc;padding:16px}
+
+  /* step 1 visual — data sources */
+  .sources{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .source-chip{
+    aspect-ratio:1/1;border:1px solid var(--rule);border-radius:8px;background:var(--pure-white);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;position:relative;
+  }
+  .source-chip .pill{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;color:#fff;font-size:15px}
+  .source-chip .label{font-size:10px;color:var(--text-muted);font-weight:500}
+  .source-chip .check{position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--mint);display:flex;align-items:center;justify-content:center}
+  .source-chip .check svg{width:8px;height:8px}
+  .source-chip.empty{border-style:dashed;color:var(--text-muted);font-size:11px;justify-content:center}
+  .source-progress{margin-top:12px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+  .progress-bar{margin-top:6px;height:4px;background:var(--rule);border-radius:3px;overflow:hidden}
+  .progress-bar .fill{height:100%;width:54%;background:linear-gradient(90deg,var(--forest),var(--mint));border-radius:3px}
+
+  /* step 2 — chat-like task */
+  .chat{display:flex;flex-direction:column;gap:8px}
+  .chat-msg{padding:10px 12px;border-radius:8px;font-size:12.5px;line-height:1.45;max-width:85%}
+  .chat-msg.user{background:var(--near-black);color:var(--soft-white);align-self:flex-end;border-bottom-right-radius:2px}
+  .chat-msg.agent{background:var(--off-white);color:var(--charcoal);border:1px solid var(--rule);border-bottom-left-radius:2px}
+  .chat-task{margin-top:8px;padding:10px 12px;background:#ecf4ef;border:1px solid #cde3d6;border-radius:8px;display:flex;flex-direction:column;gap:4px}
+  .chat-task .ct-head{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--forest);font-weight:500}
+  .chat-task .ct-check{width:12px;height:12px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center}
+  .chat-task .ct-check svg{width:7px;height:7px}
+  .chat-task .ct-row{font-size:11px;color:var(--charcoal);display:flex;gap:8px}
+  .chat-task .ct-row b{color:var(--text-muted);font-weight:500;min-width:58px;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em}
+
+  /* step 3 — activity feed */
+  .act-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .act-stat{padding:10px 12px;background:var(--pure-white);border:1px solid var(--rule);border-radius:8px;text-align:center}
+  .act-stat .n{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--near-black);letter-spacing:-.01em}
+  .act-stat .l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-top:2px}
+  .act-list{display:flex;flex-direction:column;gap:8px}
+  .act-item{display:flex;gap:10px;align-items:flex-start;padding:8px;border-radius:6px}
+  .act-item .ai-dot{width:22px;height:22px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:11px}
+  .act-item .ai-body{flex:1;min-width:0}
+  .act-item .ai-title{font-size:12px;font-weight:600;color:var(--near-black);line-height:1.3}
+  .act-item .ai-meta{font-size:10.5px;color:var(--text-muted);margin-top:2px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+  .act-item .ai-time{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.06em;flex-shrink:0}
+
+  /* ========= AGENTS ========= */
+  .chip-eyebrow{
+    display:inline-flex;padding:6px 14px;border-radius:999px;background:var(--off-white);
+    border:1px solid var(--rule-2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--charcoal);margin-bottom:24px;
+  }
+  .agents{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .agent{
+    background:var(--pure-white);border:1px solid var(--rule);border-radius:16px;padding:32px;
+    display:flex;flex-direction:column;gap:18px;
+    transition:transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .agent:hover{transform:translateY(-3px);box-shadow:0 20px 50px -26px rgba(10,11,10,.18);border-color:var(--rule-2)}
+  .agent-head{display:flex;align-items:center;gap:14px}
+  .agent-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;color:#fff;font-size:16px}
+  .agent h3{flex:1}
+  .agent p{font-size:15px;color:var(--text-muted);line-height:1.55;max-width:52ch}
+  .agent-connects{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);padding-top:4px}
+  .agent-connects .logos{display:flex;gap:6px}
+  .agent-connects .lg{width:22px;height:22px;border-radius:6px;border:1px solid var(--rule);background:#fff;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:10px;color:var(--near-black)}
+  .agent-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px;background:var(--off-white);border-radius:10px}
+  .metric{text-align:left}
+  .metric .mv{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--near-black);letter-spacing:-.01em}
+  .metric .mv .delta{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--forest);margin-left:4px}
+  .metric .mv .delta.down{color:#8a2a1e}
+  .metric .ml{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-top:2px}
+  .agent-chart{height:120px;border-radius:10px;border:1px solid var(--rule);background:#fcfdfc;padding:14px;display:flex;align-items:flex-end;gap:6px}
+
+  /* bar chart */
+  .bar{flex:1;border-radius:3px 3px 0 0;position:relative}
+  .bar::after{content:attr(data-label);position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text-muted);letter-spacing:.08em}
+
+  /* line chart (svg) */
+  .agent-chart svg{width:100%;height:100%}
+
+  /* ========= PLATFORM ========= */
+  .platform-bg{background:var(--off-white)}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+  .pillar{background:var(--pure-white);border:1px solid var(--rule);border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:12px}
+  .pillar .p-icon{width:38px;height:38px;border-radius:8px;background:var(--off-white);border:1px solid var(--rule);display:flex;align-items:center;justify-content:center}
+  .pillar h4{font-size:18px;font-family:'Syne',sans-serif;font-weight:700}
+  .pillar p{font-size:14.5px;color:var(--text-muted);line-height:1.55}
+
+  /* pipeline diagram */
+  .pipeline{display:flex;align-items:center;justify-content:center;gap:24px;margin:36px 0 4px;flex-wrap:wrap}
+  .pipe-node{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .pipe-node .pn-box{width:64px;height:64px;border-radius:14px;background:var(--pure-white);border:1px solid var(--rule-2);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px -6px rgba(10,11,10,.08)}
+  .pipe-node.active .pn-box{border-color:var(--forest);background:#ecf4ef}
+  .pipe-node .pn-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+  .pipe-link{flex:0 0 60px;height:1px;background:repeating-linear-gradient(to right, var(--rule-2) 0 4px, transparent 4px 8px);position:relative}
+  .pipe-link::after{content:"";position:absolute;right:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--mint)}
+
+  /* ========= DASHBOARD ========= */
+  .dash-split{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;align-items:center}
+  .dash-copy h2{margin-bottom:18px}
+  .dash-copy h2 .accent{color:var(--forest)}
+  .dash-copy p{color:var(--text-muted);font-size:17px;margin-bottom:24px;max-width:46ch}
+  .dash-check{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:15px;color:var(--charcoal)}
+  .dash-check svg{flex-shrink:0;margin-top:3px}
+  .dash-copy .btn{margin-top:20px}
+
+  .dash-card{
+    background:var(--pure-white);border:1px solid var(--rule-2);border-radius:14px;padding:18px;
+    box-shadow:0 30px 60px -30px rgba(10,11,10,.2), 0 10px 22px -18px rgba(13,92,58,.12);
+  }
+  .dash-head{display:flex;align-items:center;gap:10px;padding:4px 4px 14px;border-bottom:1px solid var(--rule);margin-bottom:14px}
+  .dash-head .title{font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px}
+  .dash-head .live{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;background:rgba(0,196,113,.15);color:#036b41;border-radius:4px;font-weight:500;display:inline-flex;align-items:center;gap:6px}
+  .dash-head .live .d{width:5px;height:5px;border-radius:50%;background:var(--mint)}
+  .dash-head .synced{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.06em}
+
+  .dash-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .kpi{padding:12px;background:var(--off-white);border-radius:10px}
+  .kpi .kv{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--near-black);letter-spacing:-.01em}
+  .kpi .kv .delta{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--forest);margin-left:4px}
+  .kpi .kl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-top:2px}
+
+  .dash-chart{height:180px;padding:12px;background:#fcfdfc;border:1px solid var(--rule);border-radius:10px;display:flex;align-items:flex-end;gap:8px}
+
+  /* ROI per automation rows */
+  .roi-list{display:flex;flex-direction:column;gap:8px}
+  .roi-row{
+    display:grid;grid-template-columns:28px 1fr auto auto auto;align-items:center;gap:14px;
+    padding:14px 14px;background:var(--pure-white);border:1px solid var(--rule);border-radius:10px;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .roi-row:hover{border-color:#cfd7cf;box-shadow:0 4px 12px -6px rgba(13,92,58,.12)}
+  .roi-ico{width:28px;height:28px;border-radius:7px;color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:11px;letter-spacing:-.01em}
+  .roi-name{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .roi-name .n{font-family:'DM Sans',sans-serif;font-weight:600;font-size:13px;color:var(--near-black);letter-spacing:-.005em}
+  .roi-name .m{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+  .roi-stat{display:flex;flex-direction:column;align-items:flex-end;gap:2px;min-width:68px}
+  .roi-stat .sv{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--near-black);letter-spacing:-.01em;line-height:1}
+  .roi-stat .sl{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
+  .roi-stat.save .sv{color:var(--forest)}
+  .roi-total{
+    margin-top:12px;padding:14px 16px;background:var(--near-black);color:var(--soft-white);border-radius:10px;
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+  }
+  .roi-total .rt-l{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8a928c}
+  .roi-total .rt-v{font-family:'Syne',sans-serif;font-weight:700;font-size:24px;color:#fff;letter-spacing:-.01em}
+  .roi-total .rt-v .delta{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--mint);margin-left:6px}
+  .roi-total .rt-sub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;color:#8a928c}
+  @media (max-width: 720px){
+    .roi-row{grid-template-columns:24px 1fr auto;row-gap:6px}
+    .roi-row .roi-stat:nth-child(4){display:none}
+  }
+
+  /* ========= INTEGRATIONS ========= */
+  .integrations{padding:100px 0 120px;text-align:center}
+  .integrations h2{margin-bottom:16px}
+  .integrations h2 .accent{color:var(--forest)}
+  .integrations p{color:var(--text-muted);font-size:18px;max-width:58ch;margin:0 auto 36px}
+  .int-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:10px;max-width:960px;margin:48px auto 0}
+  .int-grid .tile{
+    aspect-ratio:1/1;border:1px solid var(--rule);background:var(--pure-white);border-radius:10px;
+    display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;color:var(--charcoal);font-size:13px;letter-spacing:-.01em;
+    opacity:.6;transition:all .2s;
+  }
+  .int-grid .tile:hover{opacity:1;border-color:var(--forest);color:var(--forest);transform:translateY(-2px)}
+  .int-grid .tile.bright{opacity:1}
+  .int-grid .tile.bright:nth-child(3n){color:var(--forest)}
+  .int-grid .tile.bright:nth-child(5n){color:var(--navy)}
+
+  /* ========= MCP / DEVELOPERS ========= */
+  .mcp-split{display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center}
+  .mcp-copy .eyebrow{color:var(--forest);margin-bottom:22px}
+  .mcp-copy h2{margin-bottom:18px}
+  .mcp-copy p{color:var(--text-muted);font-size:17px;margin-bottom:24px;max-width:44ch}
+
+  .code-card{
+    background:var(--near-black);color:var(--soft-white);border-radius:12px;overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(10,11,10,.4);
+  }
+  .code-head{display:flex;align-items:center;gap:8px;padding:14px 18px;background:#111412;border-bottom:1px solid #1f2420;font-family:'JetBrains Mono',monospace;font-size:11px;color:#a0a9a3;letter-spacing:.08em}
+  .code-dots{display:flex;gap:6px;margin-right:10px}
+  .code-dot{width:10px;height:10px;border-radius:50%;background:#2c322e}
+  .code-body{padding:22px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.8;color:#d7ddd8}
+  .code-body .k{color:var(--mint)}
+  .code-body .s{color:#a0a9a3}
+  .code-body .p{color:#ffc876}
+  .code-body .c{color:#6a746d;font-style:italic}
+
+  /* ========= TESTIMONIALS ========= */
+  .testimonials{background:var(--off-white)}
+  .t-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .t-card{
+    background:var(--pure-white);border:1px solid var(--rule);border-radius:14px;padding:26px;
+    display:flex;flex-direction:column;gap:20px;min-height:300px;
+  }
+  .t-quote{font-size:15px;line-height:1.55;color:var(--charcoal);font-family:'DM Sans',sans-serif}
+  .t-author{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:16px;border-top:1px solid var(--rule)}
+  .t-avatar{width:38px;height:38px;border-radius:50%;background:var(--near-black);color:var(--soft-white);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;flex-shrink:0}
+  .t-name{font-family:'Syne',sans-serif;font-weight:600;font-size:14px;color:var(--near-black)}
+  .t-role{font-size:12px;color:var(--text-muted);margin-top:2px}
+
+  /* ========= PRICING ========= */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:48px}
+  .price{
+    background:var(--pure-white);border:1px solid var(--rule);border-radius:16px;padding:32px;
+    display:flex;flex-direction:column;gap:18px;position:relative;
+  }
+  .price.featured{border-color:var(--forest);border-width:2px;box-shadow:0 30px 60px -30px rgba(13,92,58,.3)}
+  .price .tag-pop{position:absolute;top:-12px;left:32px;padding:4px 10px;background:var(--forest);color:var(--soft-white);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;border-radius:4px;font-weight:500}
+  .price-name{font-family:'Syne',sans-serif;font-weight:600;font-size:16px;color:var(--text-muted);letter-spacing:0}
+  .price-amt{font-family:'Syne',sans-serif;font-weight:800;font-size:54px;color:var(--near-black);letter-spacing:-.03em;line-height:1}
+  .price-amt .suffix{font-family:'DM Sans',sans-serif;font-weight:500;font-size:15px;color:var(--text-muted);margin-left:6px}
+  .price-sub{font-size:13px;color:var(--text-muted);margin-top:-10px}
+  .price-features{display:flex;flex-direction:column;gap:10px;padding:16px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:4px 0}
+  .price-features .f{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--charcoal);line-height:1.5}
+  .price-features .f svg{flex-shrink:0;margin-top:3px}
+  .price .btn{width:100%;justify-content:center}
+  .price.custom .price-amt{font-size:38px}
+
+  /* ========= CTA ========= */
+  .cta-final{
+    background:var(--near-black);color:var(--soft-white);
+    border-radius:20px;padding:72px 56px;margin:80px 40px;text-align:center;position:relative;overflow:hidden;
+    max-width:1220px;margin-left:auto;margin-right:auto;
+  }
+  .cta-final::after{
+    content:"";position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;
+    background:radial-gradient(circle, rgba(0,196,113,.28), transparent 65%);pointer-events:none;
+  }
+  .cta-final::before{
+    content:"";position:absolute;left:-120px;bottom:-120px;width:320px;height:320px;border-radius:50%;
+    background:radial-gradient(circle, rgba(13,92,58,.35), transparent 65%);pointer-events:none;
+  }
+  .cta-final .eyebrow{color:var(--mint);justify-content:center;display:inline-flex;margin-bottom:22px;position:relative;z-index:1}
+  .cta-final h2{color:var(--soft-white);font-size:clamp(40px,5.5vw,72px);margin-bottom:18px;position:relative;z-index:1}
+  .cta-final h2 .accent{color:var(--mint)}
+  .cta-final p{color:#c7cdc8;font-size:18px;max-width:52ch;margin:0 auto 32px;position:relative;z-index:1}
+  .cta-final .ctas{display:flex;gap:14px;justify-content:center;position:relative;z-index:1}
+  .cta-final .btn-ghost{background:transparent;color:var(--soft-white);border-color:#2a2d2a}
+  .cta-final .btn-ghost:hover{border-color:var(--mint);color:var(--mint)}
+
+  /* ========= FOOTER ========= */
+  footer{padding:64px 40px 48px;border-top:1px solid var(--rule)}
+  .foot{max-width:1220px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px}
+  .foot .brand .word{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--near-black);letter-spacing:-.02em}
+  .foot .brand p{font-size:14px;color:var(--text-muted);margin-top:10px;max-width:28ch;line-height:1.55}
+  .foot h5{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;font-weight:500}
+  .foot ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .foot a{font-size:14px;color:var(--charcoal)}
+  .foot a:hover{color:var(--forest)}
+  .foot-bot{max-width:1220px;margin:56px auto 0;padding-top:24px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+
+  /* responsive */
+  @media (max-width:1000px){
+    .steps,.agents,.pillars,.t-grid,.price-grid{grid-template-columns:1fr}
+    .int-grid{grid-template-columns:repeat(6,1fr)}
+    .dash-split,.mcp-split{grid-template-columns:1fr}
+    .hero-demo{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .foot{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <img src="assets/logo-mark.png" alt="Tailored AI">
+      <span class="word">Tailored&nbsp;AI</span>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How It Works</a>
+      <a href="#agents">Automations</a>
+      <a href="#dashboards">Dashboards</a>
+      <a href="#platform">Platform</a>
+      <a href="#integrations">Integrations</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="login">Login</a>
+      <a href="#" class="btn btn-primary">Join waitlist for a free Zoom
+        <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <h1>AI automation <span class="accent">to save your business money.</span></h1>
+    <p class="lede">Tailored comes to your business in person, builds your AI tech stack, then automates your biggest back-office expense — in a week.</p>
+    <div class="hero-ctas">
+      <a href="#pricing" class="btn btn-primary btn-lg">Join waitlist for a free Zoom
+        <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#how" class="btn btn-ghost btn-lg">See how it works</a>
+    </div>
+
+    <div class="hero-demo">
+      <div class="hero-demo-item">
+        <div class="row1">
+          <span class="dot" style="background:var(--forest)"></span>
+          <h4>Accounting Reconciler</h4>
+          <span class="status s-forest">Running</span>
+        </div>
+        <div class="desc">Matching transactions across ledger and bank this morning</div>
+      </div>
+      <div class="hero-demo-item">
+        <div class="row1">
+          <span class="dot" style="background:var(--navy)"></span>
+          <h4>Lead Generation</h4>
+          <span class="status s-navy">Running</span>
+        </div>
+        <div class="desc">10,000 tenants found to fill your properties, ready to pass to email campaign agent</div>
+      </div>
+      <div class="hero-demo-item">
+        <div class="row1">
+          <span class="dot" style="background:var(--mint)"></span>
+          <h4>Job Quoting Agent</h4>
+          <span class="status s-mint">Running</span>
+        </div>
+        <div class="desc">Ran against all your past jobs to find the optimum price</div>
+      </div>
+      <div class="hero-demo-item">
+        <div class="row1">
+          <span class="dot" style="background:var(--charcoal)"></span>
+          <h4>Voice Receptionist</h4>
+          <span class="status s-charcoal">Running</span>
+        </div>
+        <div class="desc">Taking hotel bookings by phone, synced live with your calendar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="tight">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Deploy your AI back office.</h2>
+      <p>We audit your business, build automations tailored to your workflows, and stay on to keep them sharp. No software to learn, no team to manage.</p>
+    </div>
+
+    <div class="steps">
+      <!-- STEP 1 -->
+      <div class="step">
+        <div class="step-head">
+          <span class="step-num">01</span>
+          <h3>We come to you</h3>
+        </div>
+        <p class="step-desc">We fly out, spend time on the ground, and learn everything about how your business actually runs. You walk away ready to become AI native.</p>
+        <div class="step-visual">
+          <div class="sources">
+            <div class="source-chip"><div class="pill" style="background:var(--forest)">QB</div><div class="label">QuickBooks</div><div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4.2l1.6 1.6L6.5 2.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg></div></div>
+            <div class="source-chip"><div class="pill" style="background:var(--navy)">PR</div><div class="label">Procore</div><div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4.2l1.6 1.6L6.5 2.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg></div></div>
+            <div class="source-chip"><div class="pill" style="background:var(--charcoal)">SP</div><div class="label">Sage</div><div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4.2l1.6 1.6L6.5 2.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg></div></div>
+            <div class="source-chip"><div class="pill" style="background:#036b41">BX</div><div class="label">Buildertrend</div><div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4.2l1.6 1.6L6.5 2.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg></div></div>
+            <div class="source-chip"><div class="pill" style="background:var(--forest-2)">OL</div><div class="label">Outlook</div><div class="check"><svg viewBox="0 0 8 8" fill="none"><path d="M1.5 4.2l1.6 1.6L6.5 2.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg></div></div>
+            <div class="source-chip empty">+ 12 more</div>
+          </div>
+          <div class="source-progress"><span>Audit in progress</span><span>54%</span></div>
+          <div class="progress-bar"><div class="fill"></div></div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step">
+        <div class="step-head">
+          <span class="step-num">02</span>
+          <h3>We build your first automation</h3>
+        </div>
+        <p class="step-desc">We build the one that solves your biggest pain point, the one costing you the most money. Live in weeks, not months.</p>
+        <div class="step-visual">
+          <div class="chat">
+            <div class="chat-msg user">When a vendor invoice arrives in Outlook, match it to a PO and push it to QuickBooks. Flag mismatches.</div>
+            <div class="chat-msg agent">Got it. Should I flag mismatches over $500 for approval, or everything?</div>
+            <div class="chat-msg user">Everything over $500. Under that, auto-approve.</div>
+            <div class="chat-task">
+              <div class="ct-head"><div class="ct-check"><svg viewBox="0 0 7 7" fill="none"><path d="M1 3.6l1.4 1.4L6 1.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/></svg></div>Automation built</div>
+              <div class="ct-row"><b>Trigger</b>New Outlook email w/ PDF</div>
+              <div class="ct-row"><b>Rule</b>Auto-approve ≤ $500</div>
+              <div class="ct-row"><b>Systems</b>Outlook → QuickBooks</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step">
+        <div class="step-head">
+          <span class="step-num">03</span>
+          <h3>We stay on as your AI partner</h3>
+        </div>
+        <p class="step-desc">We stay on board as your AI partner. When new tools come out and new outcomes become reachable, we are there for you.</p>
+        <div class="step-visual">
+          <div class="act-stats">
+            <div class="act-stat"><div class="n">38</div><div class="l">Tasks today</div></div>
+            <div class="act-stat"><div class="n">$4.2k</div><div class="l">Saved/wk</div></div>
+            <div class="act-stat"><div class="n">6</div><div class="l">Running</div></div>
+          </div>
+          <div class="act-list">
+            <div class="act-item">
+              <div class="ai-dot" style="background:var(--forest)">I</div>
+              <div class="ai-body">
+                <div class="ai-title">Invoice reconciled — PO #4421</div>
+                <div class="ai-meta">QuickBooks · $8,240 · auto-approved</div>
+              </div>
+              <div class="ai-time">2m</div>
+            </div>
+            <div class="act-item">
+              <div class="ai-dot" style="background:var(--navy)">R</div>
+              <div class="ai-body">
+                <div class="ai-title">Weekly WIP report sent to ownership</div>
+                <div class="ai-meta">6 projects · 14 line items</div>
+              </div>
+              <div class="ai-time">1h</div>
+            </div>
+            <div class="act-item">
+              <div class="ai-dot" style="background:var(--mint);color:var(--near-black)">S</div>
+              <div class="ai-body">
+                <div class="ai-title">Subcontractor schedule drafted</div>
+                <div class="ai-meta">Kellogg site · 4 trades notified</div>
+              </div>
+              <div class="ai-time">3h</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============ AGENTS ============ -->
+<section id="agents">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="chip-eyebrow">Popular automations</span>
+      <h2>Automations that save you money.</h2>
+      <p>These are the four our customers turn on first — the ones that pay for themselves fastest. Each one is custom-built to your systems, your language, and your rules.</p>
+    </div>
+
+    <div class="agents">
+      <!-- Accounting Reconciler -->
+      <div class="agent">
+        <div class="agent-head">
+          <div class="agent-icon" style="background:var(--forest)">AR</div>
+          <h3>Accounting Reconciler</h3>
+        </div>
+        <p>Matches transactions across your ledger and bank every morning. Flags duplicates, missing receipts, and miscoded entries for a human to clear. Your books close themselves by the time you get in.</p>
+        <div class="agent-connects">
+          <span>Connects</span>
+          <div class="logos">
+            <div class="lg">QB</div><div class="lg">XL</div><div class="lg">PL</div><div class="lg">ST</div>
+          </div>
+          <span style="margin-left:auto">+ 14 more</span>
+        </div>
+        <div class="agent-metrics">
+          <div class="metric"><div class="mv">1,284<span class="delta">+212</span></div><div class="ml">Txns matched</div></div>
+          <div class="metric"><div class="mv">99.2%</div><div class="ml">Auto-match</div></div>
+          <div class="metric"><div class="mv">9h<span class="delta">saved</span></div><div class="ml">Per week</div></div>
+        </div>
+        <div class="agent-chart">
+          <div class="bar" style="height:48%;background:linear-gradient(to top,var(--forest),#2a8860)" data-label="Mon"></div>
+          <div class="bar" style="height:62%;background:linear-gradient(to top,var(--forest),#2a8860)" data-label="Tue"></div>
+          <div class="bar" style="height:55%;background:linear-gradient(to top,var(--forest),#2a8860)" data-label="Wed"></div>
+          <div class="bar" style="height:78%;background:linear-gradient(to top,var(--forest),#2a8860)" data-label="Thu"></div>
+          <div class="bar" style="height:72%;background:linear-gradient(to top,var(--forest),#2a8860)" data-label="Fri"></div>
+        </div>
+      </div>
+
+      <!-- Lead Generation -->
+      <div class="agent">
+        <div class="agent-head">
+          <div class="agent-icon" style="background:var(--navy)">LG</div>
+          <h3>Lead Generation</h3>
+        </div>
+        <p>Sources prospects that match your ideal customer — tenants for your properties, buyers for your services, whoever you need. Enriches, scores, and hands them to your email campaign agent ready to go.</p>
+        <div class="agent-connects">
+          <span>Connects</span>
+          <div class="logos"><div class="lg">HS</div><div class="lg">AP</div><div class="lg">LN</div><div class="lg">CL</div></div>
+          <span style="margin-left:auto">+ 11 more</span>
+        </div>
+        <div class="agent-metrics">
+          <div class="metric"><div class="mv">10,284<span class="delta">+1.2k</span></div><div class="ml">Leads found</div></div>
+          <div class="metric"><div class="mv">38%</div><div class="ml">Reply rate</div></div>
+          <div class="metric"><div class="mv">162</div><div class="ml">Meetings/mo</div></div>
+        </div>
+        <div class="agent-chart">
+          <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="gN" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0B3D6B" stop-opacity=".25"/>
+                <stop offset="100%" stop-color="#0B3D6B" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,80 L40,70 L80,64 L120,55 L160,42 L200,36 L240,24 L300,14 L300,100 L0,100 Z" fill="url(#gN)"/>
+            <path d="M0,80 L40,70 L80,64 L120,55 L160,42 L200,36 L240,24 L300,14" stroke="#0B3D6B" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Job Quoting Agent -->
+      <div class="agent">
+        <div class="agent-head">
+          <div class="agent-icon" style="background:#036b41">JQ</div>
+          <h3>Job Quoting Agent</h3>
+        </div>
+        <p>Runs every new job against your history — past quotes, actual margins, win rates — to land on the price that wins the work without leaving money on the table. Drafts the proposal for a human to send.</p>
+        <div class="agent-connects">
+          <span>Connects</span>
+          <div class="logos"><div class="lg">PR</div><div class="lg">QB</div><div class="lg">HS</div><div class="lg">DS</div></div>
+          <span style="margin-left:auto">+ 7 more</span>
+        </div>
+        <div class="agent-metrics">
+          <div class="metric"><div class="mv">87</div><div class="ml">Quotes/wk</div></div>
+          <div class="metric"><div class="mv">+4.1%<span class="delta">margin</span></div><div class="ml">vs. last Q</div></div>
+          <div class="metric"><div class="mv">61%</div><div class="ml">Win rate</div></div>
+        </div>
+        <div class="agent-chart">
+          <div class="bar" style="height:50%;background:linear-gradient(to top,#036b41,var(--mint))" data-label="W1"></div>
+          <div class="bar" style="height:64%;background:linear-gradient(to top,#036b41,var(--mint))" data-label="W2"></div>
+          <div class="bar" style="height:70%;background:linear-gradient(to top,#036b41,var(--mint))" data-label="W3"></div>
+          <div class="bar" style="height:76%;background:linear-gradient(to top,#036b41,var(--mint))" data-label="W4"></div>
+          <div class="bar" style="height:90%;background:linear-gradient(to top,#036b41,var(--mint))" data-label="W5"></div>
+        </div>
+      </div>
+
+      <!-- Voice Receptionist -->
+      <div class="agent">
+        <div class="agent-head">
+          <div class="agent-icon" style="background:var(--charcoal)">VR</div>
+          <h3>Voice Receptionist</h3>
+        </div>
+        <p>Answers your phone in your brand's voice. Books appointments, takes hotel reservations, qualifies service calls — all synced live to your calendar and CRM. Never misses a ring, never puts a caller on hold.</p>
+        <div class="agent-connects">
+          <span>Connects</span>
+          <div class="logos"><div class="lg">TW</div><div class="lg">GC</div><div class="lg">HS</div><div class="lg">SF</div></div>
+          <span style="margin-left:auto">+ 12 more</span>
+        </div>
+        <div class="agent-metrics">
+          <div class="metric"><div class="mv">412</div><div class="ml">Calls/wk</div></div>
+          <div class="metric"><div class="mv">96%</div><div class="ml">Answered</div></div>
+          <div class="metric"><div class="mv">138</div><div class="ml">Bookings</div></div>
+        </div>
+        <div class="agent-chart">
+          <svg viewBox="0 0 300 100" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="gC" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1C1C1C" stop-opacity=".2"/>
+                <stop offset="100%" stop-color="#1C1C1C" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0,60 L50,55 L100,62 L150,40 L200,48 L250,30 L300,38 L300,100 L0,100 Z" fill="url(#gC)"/>
+            <path d="M0,60 L50,55 L100,62 L150,40 L200,48 L250,30 L300,38" stroke="#1C1C1C" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="150" cy="40" r="3" fill="#00C471"/>
+            <circle cx="250" cy="30" r="3" fill="#00C471"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DASHBOARD / LIVE REPORTING ============ -->
+<section id="dashboards" class="divider">
+  <div class="wrap">
+    <div class="dash-split">
+      <div class="dash-copy">
+        <span class="eyebrow">Live reporting</span>
+        <h2 style="margin-top:22px">One dashboard. <span class="accent">Real ROI for every automation.</span></h2>
+        <p>Every automation reports into a single view. See exactly what each one is doing, what it's saving you, and what it's earning — refreshed the moment your systems sync.</p>
+        <div class="dash-check"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#0D5C3A"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#F0F4F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Dollar-value ROI tracked per automation, every month.</span></div>
+        <div class="dash-check"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#0D5C3A"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#F0F4F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Hours saved, runs completed, errors caught — in real time.</span></div>
+        <div class="dash-check"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#0D5C3A"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#F0F4F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>One source of truth for ownership, ops, and finance.</span></div>
+        <a href="#pricing" class="btn btn-ghost">Start building
+          <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="dash-card">
+        <div class="dash-head">
+          <span class="dot" style="width:8px;height:8px;border-radius:2px;background:var(--forest)"></span>
+          <span class="title">Automation ROI — April</span>
+          <span class="live"><span class="d"></span>Live</span>
+          <span class="synced">Synced 12s ago</span>
+        </div>
+
+        <div class="roi-list">
+          <div class="roi-row">
+            <div class="roi-ico" style="background:var(--forest)">AR</div>
+            <div class="roi-name"><div class="n">Accounting Reconciler</div><div class="m">1,284 txns · 99.2% auto-match</div></div>
+            <div class="roi-stat"><div class="sv">36h</div><div class="sl">Hours saved</div></div>
+            <div class="roi-stat save"><div class="sv">$4,320</div><div class="sl">Saved</div></div>
+          </div>
+          <div class="roi-row">
+            <div class="roi-ico" style="background:var(--navy)">LG</div>
+            <div class="roi-name"><div class="n">Lead Generation</div><div class="m">10,284 leads · 162 meetings booked</div></div>
+            <div class="roi-stat"><div class="sv">162</div><div class="sl">Meetings</div></div>
+            <div class="roi-stat save"><div class="sv">$48,600</div><div class="sl">Pipeline</div></div>
+          </div>
+          <div class="roi-row">
+            <div class="roi-ico" style="background:#036b41">JQ</div>
+            <div class="roi-name"><div class="n">Job Quoting Agent</div><div class="m">87 quotes · +4.1% margin · 61% win</div></div>
+            <div class="roi-stat"><div class="sv">+4.1%</div><div class="sl">Margin lift</div></div>
+            <div class="roi-stat save"><div class="sv">$18,940</div><div class="sl">Earned</div></div>
+          </div>
+          <div class="roi-row">
+            <div class="roi-ico" style="background:var(--charcoal)">VR</div>
+            <div class="roi-name"><div class="n">Voice Receptionist</div><div class="m">412 calls · 96% answered · 138 bookings</div></div>
+            <div class="roi-stat"><div class="sv">138</div><div class="sl">Bookings</div></div>
+            <div class="roi-stat save"><div class="sv">$9,660</div><div class="sl">Saved</div></div>
+          </div>
+        </div>
+
+        <div class="roi-total">
+          <div>
+            <div class="rt-l">Total ROI · April</div>
+            <div class="rt-v">$81,520<span class="delta">+18.4%</span></div>
+          </div>
+          <div class="rt-sub">vs. $2,400/mo retainer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTEGRATIONS ============ -->
+<section class="integrations" id="integrations" style="background:var(--off-white)">
+  <div class="wrap">
+    <h2>Works with <span class="accent">every tool</span> your business already uses.</h2>
+    <p>We connect to the systems your team lives in — accounting, PM, email, field apps — and handle the integration work so you don't have to.</p>
+    <a href="#" class="btn btn-primary">See 200+ integrations
+      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <div class="int-grid">
+      <div class="tile bright">QB</div><div class="tile bright">Sage</div><div class="tile">Xero</div><div class="tile bright">Procore</div><div class="tile">CMiC</div><div class="tile bright">BT</div><div class="tile">Jonas</div><div class="tile bright">HB</div><div class="tile">Foundation</div><div class="tile">Vista</div>
+      <div class="tile bright">Outlook</div><div class="tile">Gmail</div><div class="tile bright">Slack</div><div class="tile">Teams</div><div class="tile bright">Dropbox</div><div class="tile">Box</div><div class="tile bright">GDrive</div><div class="tile">OneDrive</div><div class="tile">Notion</div><div class="tile bright">Excel</div>
+      <div class="tile">Salesforce</div><div class="tile bright">HubSpot</div><div class="tile">Pipedrive</div><div class="tile">Zoho</div><div class="tile bright">Docusign</div><div class="tile">PandaDoc</div><div class="tile">Bill.com</div><div class="tile bright">Plaid</div><div class="tile">Stripe</div><div class="tile">Ramp</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PLATFORM / PIPELINE ============ -->
+<section id="platform">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="chip-eyebrow">The platform</span>
+      <h2>Secure pipeline, your data, <span style="color:var(--forest)">our craft.</span></h2>
+      <p>Every automation runs on a platform we built — so your data stays in systems you already trust, the audit trail is always on, and nothing is a black box.</p>
+    </div>
+
+    <div class="pipeline">
+      <div class="pipe-node active">
+        <div class="pn-box"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="3" width="9" height="9" rx="1.5" fill="#0D5C3A"/><rect x="16" y="3" width="9" height="9" rx="1.5" stroke="#0D5C3A" stroke-width="1.6"/><rect x="3" y="16" width="9" height="9" rx="1.5" stroke="#0D5C3A" stroke-width="1.6"/><rect x="16" y="16" width="9" height="9" rx="1.5" fill="#0D5C3A" opacity=".3"/></svg></div>
+        <div class="pn-label">Your systems</div>
+      </div>
+      <div class="pipe-link"></div>
+      <div class="pipe-node active">
+        <div class="pn-box"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M4 14h6M18 14h6M14 4v6M14 18v6" stroke="#0D5C3A" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="14" r="4" fill="#0D5C3A"/></svg></div>
+        <div class="pn-label">Secure bridge</div>
+      </div>
+      <div class="pipe-link"></div>
+      <div class="pipe-node active">
+        <div class="pn-box"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><ellipse cx="14" cy="7" rx="9" ry="3" fill="#0D5C3A"/><path d="M5 7v7c0 1.65 4 3 9 3s9-1.35 9-3V7M5 14v7c0 1.65 4 3 9 3s9-1.35 9-3v-7" stroke="#0D5C3A" stroke-width="1.6" fill="none"/></svg></div>
+        <div class="pn-label">Audit layer</div>
+      </div>
+      <div class="pipe-link"></div>
+      <div class="pipe-node active">
+        <div class="pn-box"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M14 3l3 7h7l-5.5 4.2 2.1 7.3L14 17.5 7.4 21.5l2.1-7.3L4 10h7z" fill="#0D5C3A"/></svg></div>
+        <div class="pn-label">Automations</div>
+      </div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="p-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l7 3v5c0 4.5-3 7.5-7 8-4-.5-7-3.5-7-8V5l7-3z" stroke="#0A0B0A" stroke-width="1.6" fill="none"/><path d="M6.5 10l2.5 2.5L14 8" stroke="#0D5C3A" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h4>Your data stays yours</h4>
+        <p>Automations read and write to the systems you already own. We don't host your books or your job data — we connect to them.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="#0A0B0A" stroke-width="1.6"/><path d="M6 8h8M6 11h5" stroke="#0D5C3A" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h4>Audit trail, always on</h4>
+        <p>Every action an automation takes is logged, timestamped, and reviewable. Roll back, replay, or hand to auditors — without a ticket.</p>
+      </div>
+      <div class="pillar">
+        <div class="p-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#0A0B0A" stroke-width="1.6"/><path d="M10 5v5l3 2" stroke="#0D5C3A" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h4>Human in the loop</h4>
+        <p>Set thresholds where your team approves. Everything else runs autonomously. You decide where to hold the line — we enforce it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MCP / DEV ============ -->
+<section class="divider" style="background:var(--off-white)">
+  <div class="wrap">
+    <div class="mcp-split">
+      <div class="mcp-copy">
+        <span class="eyebrow">Works with your AI stack</span>
+        <h2>Your automations, in <span style="color:var(--forest)">any AI assistant.</span></h2>
+        <p>Tailored AI exposes an MCP server so Claude, Cursor, Windsurf, and any AI tool your team already uses can query your automations directly. No new app to learn.</p>
+        <div class="dash-check"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#0D5C3A"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#F0F4F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ask questions in plain English — pull live numbers.</span></div>
+        <div class="dash-check"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#0D5C3A"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#F0F4F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Trigger automations from your editor.</span></div>
+        <div class="dash-check"><svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#0D5C3A"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#F0F4F0" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Works with Claude, Cursor, Claude Code, and more.</span></div>
+        <a href="#" class="btn btn-ghost" style="margin-top:24px">Read the docs
+          <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="code-card">
+        <div class="code-head">
+          <div class="code-dots"><div class="code-dot"></div><div class="code-dot"></div><div class="code-dot"></div></div>
+          <span>mcp_config.json</span>
+        </div>
+<pre class="code-body">{
+  <span class="k">"mcpServers"</span>: {
+    <span class="k">"tailored"</span>: {
+      <span class="k">"url"</span>: <span class="s">"https://mcp.tailoredai.co/mcp"</span>,
+      <span class="k">"auth"</span>: <span class="s">"bearer"</span>
+    }
+  }
+}
+<span class="c">// → ask any assistant: "what's our margin this week?"</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testimonials" id="testimonials">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="chip-eyebrow">Early partners</span>
+      <h2>Built with operators. <span style="color:var(--forest)">Paid for by the savings.</span></h2>
+    </div>
+    <div class="t-grid">
+      <div class="t-card">
+        <p class="t-quote">"Tailored took two full days of AP work off my controller's desk in the first month. The retainer paid for itself before the second invoice cleared."</p>
+        <div class="t-author"><div class="t-avatar">MR</div><div><div class="t-name">Marcus Reilly</div><div class="t-role">CFO · Reilly Building Co.</div></div></div>
+      </div>
+      <div class="t-card">
+        <p class="t-quote">"Our WIP reports used to go out Monday afternoon. Now they're waiting in my inbox at 7am. Ownership noticed immediately."</p>
+        <div class="t-author"><div class="t-avatar">JC</div><div><div class="t-name">Jess Castillo</div><div class="t-role">Controller · Castillo Mechanical</div></div></div>
+      </div>
+      <div class="t-card">
+        <p class="t-quote">"I expected a software demo. I got a partner who spent two weeks in my shop figuring out what was actually costing me money. That's different."</p>
+        <div class="t-author"><div class="t-avatar">DN</div><div><div class="t-name">Dan Novak</div><div class="t-role">Owner · Novak &amp; Sons GC</div></div></div>
+      </div>
+      <div class="t-card">
+        <p class="t-quote">"We compared three AI vendors. Tailored was the only one that didn't try to sell us a dashboard we'd never open. They built what we asked for."</p>
+        <div class="t-author"><div class="t-avatar">AP</div><div><div class="t-name">Ana Petrova</div><div class="t-role">Ops Director · Crossbeam Const.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="chip-eyebrow">Pricing</span>
+      <h2>Charged for <span style="color:var(--forest)">how much we save you.</span></h2>
+      <p>No flat retainer. We come on-site, assess your workflows, then build the automations — and you only pay a share of what they save or earn you. If we can't save you more than we cost, we don't take the work.</p>
+    </div>
+
+    <div class="price-grid">
+      <div class="price">
+        <div class="price-name">Audit</div>
+        <div class="price-amt">25%<span class="suffix">of savings</span></div>
+        <div class="price-sub">We come on-site, assess, then build</div>
+        <div class="price-features">
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>On-site visit — we shadow your team in person</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Workflow assessment &amp; prioritized roadmap</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Hours-saved &amp; dollar-impact estimate</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Then we build — you pay only from savings</div>
+        </div>
+        <a href="#" class="btn btn-ghost">Get a quote now
+          <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="price featured">
+        <span class="tag-pop">Most common</span>
+        <div class="price-name">Partner Retainer</div>
+        <div class="price-amt">$4,500<span class="suffix">/mo</span></div>
+        <div class="price-sub">12-month engagement · savings guaranteed</div>
+        <div class="price-features">
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Starts with on-site assessment — we see the work first</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Up to 4 custom automations built &amp; deployed</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Quarterly on-site check-ins — new automation each visit</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Ongoing monitoring, tuning &amp; dashboard access</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Savings guarantee — or we rework</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Dedicated account lead</div>
+        </div>
+        <a href="#" class="btn btn-primary">Start the conversation
+          <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <div class="price custom">
+        <div class="price-name">Enterprise</div>
+        <div class="price-amt">Custom</div>
+        <div class="price-sub">For teams running 6+ parallel automations</div>
+        <div class="price-features">
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Multi-site on-site assessments before build</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Unlimited automations built &amp; maintained</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Embedded engineer — weekly on-site</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>SSO, custom security review, SLA</div>
+          <div class="f"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#0D5C3A"/><path d="M4 7.2l2 2L10 5.4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>Procurement, MSA support &amp; rollout playbook</div>
+        </div>
+        <a href="#" class="btn btn-ghost">Schedule a call
+          <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<div class="cta-final">
+  <span class="eyebrow">Two weeks from now</span>
+  <h2>Your team could be free <span class="accent">of the work that's costing you money.</span></h2>
+  <p>Book a 30-minute call. We'll tell you honestly whether Tailored is the right fit — and if it's not, we'll point you somewhere better.</p>
+  <div class="ctas">
+    <a href="#" class="btn btn-primary btn-lg" style="background:var(--mint);color:var(--near-black)">Book your free audit
+      <svg class="arrow" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="#" class="btn btn-ghost btn-lg">Email the founders</a>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot">
+    <div class="brand">
+      <div style="display:flex;align-items:center;gap:10px">
+        <img src="assets/logo-mark.png" alt="Tailored AI" style="width:22px">
+        <span class="word">Tailored&nbsp;AI</span>
+      </div>
+      <p>AI automation for the work that's costing you money. Built in partnership with small and medium businesses.</p>
+    </div>
+    <div>
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#agents">Automations</a></li>
+        <li><a href="#platform">Platform</a></li>
+        <li><a href="#integrations">Integrations</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Industries</h5>
+      <ul>
+        <li><a href="#">Construction</a></li>
+        <li><a href="#">Real estate</a></li>
+        <li><a href="#">Legal</a></li>
+        <li><a href="#">Financial advisors</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Founders</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2026 Tailored AI · Ben Ledwith &amp; Evan Rose</span>
+    <span>Built quietly · Boston / Remote</span>
+  </div>
+</footer>
+
+</body>
+</html>
